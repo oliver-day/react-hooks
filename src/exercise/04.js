@@ -5,7 +5,13 @@ import * as React from 'react';
 
 function Board() {
   // 🐨 squares is the state for this component.
-  const [squares, setSquares] = React.useState(Array(9).fill(null));
+  const [squares, setSquares] = React.useState(
+    () => JSON.parse(window.localStorage.getItem('squares')) || Array(9).fill(null)
+    );
+
+  React.useEffect(() => {
+    window.localStorage.setItem('squares', JSON.stringify(squares));
+  }, [squares]);
 
   const nextValue = calculateNextValue(squares);
   const winner = calculateWinner(squares);
